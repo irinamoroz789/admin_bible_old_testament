@@ -1,26 +1,26 @@
 <?php
-include "mysql.php";
-include "menu.php";
+include "../mysql/mysql.php";
+include "../mysql/menu.php";
 ?>
 
 <!DOCTYPE HTML>
 <html>
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="table_style.php" media="screen">
+    <link rel="stylesheet" href="../style/table_style.php" media="screen">
+    <title>Таблица тестов</title>
 </head>
 <body>
 
 <div>
     <br>
     <div class="header">Тесты по Ветхому Завету</div>
-
     <table class="table">
         <tr>
             <th></th>
             <th>Название теста</th>
             <th>Вопросы</th>
-<!--            <th>Подробнее</th>-->
+            <th>Подробнее</th>
             <th>Редактировать</th>
             <th>Удалить</th>
         </tr>
@@ -33,7 +33,7 @@ include "menu.php";
         while($test = $res->fetch_assoc())
         {
             $id_test = $test['id'];
-            $result = $conn->query("SELECT * from questions WHERE id_test= $id_test ");
+            $result = $conn->query("SELECT * from questions WHERE id_test=$id_test ");
 
             ?>
             <tr>
@@ -49,9 +49,9 @@ include "menu.php";
                 }
                 ?>
                 </span></td>
-<!--                <td><a href="more_test.php?id=--><?//=$test['id']?><!--">more</a></td>-->
+                <td><a href="more_test.php?id=<?=$test['id']?>">more</a></td>
                 <td><a href="edit_test.php?id=<?=$test['id']?>">edit</a></td>
-                <td><a href="del_test.php?id=<?=$test['id']?>">del</a></td>
+                <td><a href="del_test.php?id=<?=$test['id']?>" onclick="return confirm('Вы действительно хотите удалить тест?');">del</a></td>
             </tr>
             <?php
         }

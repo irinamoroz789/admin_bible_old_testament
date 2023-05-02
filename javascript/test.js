@@ -1,16 +1,25 @@
 const dt = new DataTransfer();
-let question_count = 0;
 let input_question_count = document.getElementById("input_question_count");
+let question_count = +input_question_count.value-1;
+// console.log(question_count);
 let input_answer_count_arr = [1];
-
 
 function changeImage(elem){
     let $files_list = $(elem).closest('.input-file').next();
+
+    let $question_id = elem.closest(".inputFormQuestion").id.split("_")[1];
+    let input_delete_image = document.getElementById("delete_image_" + $question_id);
+
+    if(input_delete_image){
+        let input_delete_image = document.getElementById("delete_image_" + $question_id);
+        input_delete_image.value = "true";
+    }
+
     $files_list.empty();
 
     for(let i = 0; i < elem.files.length; i++){
         let file = elem.files.item(i);
-        dt.items.add(file);
+        // dt.items.add(file);
 
         let reader = new FileReader();
         reader.readAsDataURL(file);
@@ -22,9 +31,17 @@ function changeImage(elem){
                 '</div>';
             $files_list.append(new_file_input);
         }
-    };
-    elem.files = dt.files;
+    }
+    // elem.files = dt.files;
 }
+function removeImage(file){
+
+    let question_id = file.closest(".inputFormQuestion").id.split("_")[1];
+    let input_delete_image = document.getElementById("delete_image_" + question_id);
+    input_delete_image.value = "true";
+    $(file).closest('.input-file-list-item').remove();
+}
+
 function removeFilesItem(target){
     let name = $(target).prev().text();
     let input = $(target).closest('.input-file-row').find('input[type=file]');
@@ -39,12 +56,14 @@ function removeFilesItem(target){
 
 function addAnswer(elem) {
     let newAnswer = document.createElement("div");
-    let new_answer_count = +elem.closest(".inputFormQuestion").dataset.answer_count + 1;
-    newAnswer.id = `inputFormAnswer_${question_count}_${new_answer_count}`;
+    let question_id = elem.closest(".inputFormQuestion").id.split("_")[1];
+    let input_answer_count = document.getElementById("input_answer_count_" + question_id);
+    let new_answer_count = +input_answer_count.value + 1;
+    newAnswer.id = `inputFormAnswer_${question_id}_${new_answer_count}`;
     newAnswer.className = "inputFormAnswer";
     newAnswer.innerHTML = `
     <div class="input-group">
-    <input type="text" name="answer_${question_count}_${new_answer_count}"  placeholder="Введите ответ" autocomplete="off">
+    <input type="text" name="answer_${question_id}_${new_answer_count}"  placeholder="Введите ответ" autocomplete="off">
     <div class="input-group-append">
     <button id="removeAnswer" type="button" class="btn-danger" onclick="deleteAnswer(this)">Удалить</button>
     </div>
@@ -52,16 +71,14 @@ function addAnswer(elem) {
 
     // $('#newAnswer').append(html);
     elem.previousElementSibling.appendChild(newAnswer);
-    elem.closest(".inputFormQuestion").dataset.answer_count = new_answer_count;
-    let question_id = elem.closest(".inputFormQuestion").id.split("_")[1];
-    document.getElementById("input_answer_count_" + question_id).value = new_answer_count;
-
-
+    input_answer_count.value = new_answer_count;
 }
+
 function checkIndexAnswer(elem){
     console.log(elem);
-    let new_answer_count = +elem.dataset.answer_count - 1;
-    elem.dataset.answer_count = new_answer_count;
+    let question_id = elem.id.split("_")[1];
+    let input_answer_count = document.getElementById("input_answer_count_" + question_id);
+    let new_answer_count = +input_answer_count.value - 1;
     let answer_inputs = document.querySelectorAll(`#${elem.id} .inputFormAnswer input`);
     let answer_form = document.querySelectorAll(`#${elem.id} .inputFormAnswer`);
     for(let i = 0; i < answer_inputs.length; i++){
@@ -71,25 +88,25 @@ function checkIndexAnswer(elem){
         answer_form[i].id = `inputFormAnswer_${old_name[1]}_${i+1}`;
 
     }
-    let question_id = elem.id.split("_")[1];
-    document.getElementById("input_answer_count_" + question_id).value = new_answer_count;
+
+    input_answer_count.value = new_answer_count;
 }
+
 function deleteAnswer(elem){
     let parent = elem.closest(".inputFormQuestion");
     // console.log(parent);
     $(elem).closest('.inputFormAnswer').remove();
     checkIndexAnswer(parent);
-
-
 }
+
 function addQuestion(elem){
     question_count +=1;
     input_question_count.value = question_count+1;
     let html = `
-     <div id="inputFormQuestion_${question_count}" class="inputFormQuestion" data-answer_count="1">
+     <div id="inputFormQuestion_${question_count}" class="inputFormQuestion">
          <div class="delete-question>">
              <button id="removeQuestion" class="button-trash" type="button" onclick="deleteQuestion(this)">
-             <object type="image/svg+xml" data="trash.svg"></object>
+             <object type="image/svg+xml" data="../style/trash.svg"></object>
              </button>
          </div>
          <h3>Вопрос</h3>
@@ -126,6 +143,7 @@ function addQuestion(elem){
     $('.form').append(html);
     $(elem).closest('#addQuestion').remove();
 }
+
 function deleteQuestion(elem){
     let parent = elem.closest(".inputFormQuestion");
     // console.log("input form question: ", $(elem).closest('.inputFormQuestion'));
@@ -146,9 +164,7 @@ function deleteQuestion(elem){
     }
 
 }
-function sayHello(elem){
-    console.log("say hello, ", elem);
-}
+
 function checkIndex(){
     let question_inputs = document.getElementsByClassName("question");
     let response_answer_inputs = document.getElementsByClassName("response_answer");
@@ -156,6 +172,7 @@ function checkIndex(){
     let img_caption_inputs = document.getElementsByClassName("img_caption");
     let comment_inputs = document.getElementsByClassName("comment");
     let answer_count_inputs = document.getElementsByClassName("answer_count");
+    let delete_image_inputs = document.getElementsByClassName("delete_image");
 
     let question_form = document.getElementsByClassName("inputFormQuestion");
     for(let i = 0; i < question_inputs.length; i++){
@@ -165,38 +182,20 @@ function checkIndex(){
         image_inputs[i].setAttribute("name", "image_"+i);
         img_caption_inputs[i].setAttribute("name", "img_caption_"+i);
         comment_inputs[i].setAttribute("name", "comment_"+i);
+        delete_image_inputs[i].setAttribute("name", "delete_image_"+i);
         answer_count_inputs[i].id = "input_answer_count_"+i;
+        delete_image_inputs[i].id = "delete_image_"+i;
 
     }
 }
-function addTag(open, close) {
-    let control = $('#control')[0];
-    let start = control.selectionStart;
-    let end = control.selectionEnd;
-    if (start != end) {
-        let text = $(control).val();
-        $(control).val(text.substring(0, start) + open + text.substring(start, end) + close + text.substring(end));
-        $(control).focus();
-        let sel = end + (open + close).length;
-        control.setSelectionRange(sel, sel);
-    }
-    return false;
+
+function pop_up_modal() {
+    $("#modal_popup").dialog({
+        height: 140,
+        modal: true,
+        title: "The title of your modal popup",
+        open: function(){
+            $( "#modal_popup" ).append("The text that you want in the modal.");
+        }
+    });
 }
-// Заголовок
-$('#button-h1').click(function(){
-    return addTag('<h1>', '</h1>');
-});
-// Жирный
-$('#button-b').click(function(){
-    return addTag('<b>', '</b>');
-});
-
-// Курсив
-$('#button-i').click(function(){
-    return addTag('<i>', '</i>');
-});
-
-// При клике на кнопки не снимаем фокус с textarea.
-$('a').on('mousedown', function() {
-    return false;
-});

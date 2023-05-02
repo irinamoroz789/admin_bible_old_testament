@@ -1,31 +1,46 @@
 <?php
 function saveTestImage($input_name, $test_id, $test_title)
 {
+//    foreach ( $_FILES as $file){
+//        foreach ($file as $value) {
+//            echo $value;
+//            echo ", ";
+//        }
+//        echo '<br>';
+//    }
+
 // Если в $_FILES существует "image" и она не NULL
-    if (isset($_FILES[$input_name])) {
+    if (isset($_FILES[$input_name]) and $_FILES[$input_name]['tmp_name']!=null) {
+        echo "Image";
+        foreach ($_FILES[$input_name] as $file) {
+            echo $file;
+            echo ", ";
+        }
+       echo "end";
 // Получаем нужные элементы массива "image"
         $fileTmpName = $_FILES[$input_name]['tmp_name'];
+        echo $fileTmpName;
         $errorCode = $_FILES[$input_name]['error'];
 // Проверим на ошибки
-        if ($errorCode !== UPLOAD_ERR_OK || !is_uploaded_file($fileTmpName)) {
-            // Массив с названиями ошибок
-            $errorMessages = [
-                UPLOAD_ERR_INI_SIZE => 'Размер файла превысил значение upload_max_filesize в конфигурации PHP.',
-                UPLOAD_ERR_FORM_SIZE => 'Размер загружаемого файла превысил значение MAX_FILE_SIZE в HTML-форме.',
-                UPLOAD_ERR_PARTIAL => 'Загружаемый файл был получен только частично.',
-                UPLOAD_ERR_NO_FILE => 'Файл не был загружен.',
-//            UPLOAD_ERR_NO_TMP_DIR => 'Отсутствует временная папка.',
-//            UPLOAD_ERR_CANT_WRITE => 'Не удалось записать файл на диск.',
-                UPLOAD_ERR_EXTENSION => 'PHP-расширение остановило загрузку файла.',
-            ];
-            // Зададим неизвестную ошибку
-            $unknownMessage = 'При загрузке файла произошла неизвестная ошибка.';
-            // Если в массиве нет кода ошибки, скажем, что ошибка неизвестна
-            $outputMessage = isset($errorMessages[$errorCode]) ? $errorMessages[$errorCode] : $unknownMessage;
-            // Выведем название ошибки
-            die($outputMessage);
-            return " ";
-        } else {
+//        if ($errorCode !== UPLOAD_ERR_OK || !is_uploaded_file($fileTmpName)) {
+//            // Массив с названиями ошибок
+//            $errorMessages = [
+//                UPLOAD_ERR_INI_SIZE => 'Размер файла превысил значение upload_max_filesize в конфигурации PHP.',
+//                UPLOAD_ERR_FORM_SIZE => 'Размер загружаемого файла превысил значение MAX_FILE_SIZE в HTML-форме.',
+//                UPLOAD_ERR_PARTIAL => 'Загружаемый файл был получен только частично.',
+//                UPLOAD_ERR_NO_FILE => 'Файл не был загружен.',
+//                UPLOAD_ERR_NO_TMP_DIR => 'Отсутствует временная папка.',
+//                UPLOAD_ERR_CANT_WRITE => 'Не удалось записать файл на диск.',
+//                UPLOAD_ERR_EXTENSION => 'PHP-расширение остановило загрузку файла.',
+//            ];
+//            // Зададим неизвестную ошибку
+//            $unknownMessage = 'При загрузке файла произошла неизвестная ошибка.';
+//            // Если в массиве нет кода ошибки, скажем, что ошибка неизвестна
+//            $outputMessage = isset($errorMessages[$errorCode]) ? $errorMessages[$errorCode] : $unknownMessage;
+//            // Выведем название ошибки
+//            die($outputMessage);
+//            return " ";
+//        } else {
             // Создадим ресурс FileInfo
             $fi = finfo_open(FILEINFO_MIME_TYPE);
             // Получим MIME-тип
@@ -52,56 +67,63 @@ function saveTestImage($input_name, $test_id, $test_title)
             // Сгенерируем расширение файла на основе типа картинки
             $extension = image_type_to_extension($image[2]);
 
+            $test_title = translitFile($test_title);
             // Сократим .jpeg до .jpg
             $format = str_replace('jpeg', 'jpg', $extension);
-            $dir = '../resources/images/tests/' .$test_id. "-". $test_title. "/";
+            $dir = '../../resources/images/tests/' .$test_id. "-". $test_title. "/";
+
             if (!file_exists($dir)) {
                 mkdir($dir, 0777);
             }
 
 //            $image_path = '../resources/images/tests/' .$test_id. "-". $test_title. "/". $name . $format;
             $image_path = $dir . $name . $format;
-            $image_path = translitFile($image_path);
 
             // Переместим картинку с новым именем и расширением в папку /upload
             if (!move_uploaded_file($fileTmpName,   $image_path)) {
                 die('При записи изображения на диск произошла ошибка.');
             }
 
-            echo 'Картинка успешно загружена!';
             return $image_path;
         }
-    }
-    return "Image not found";
+//    }
+    return "";
 
 }
 function saveThemesImage($input_name, $themes_title)
 {
-// Если в $_FILES существует "image" и она не NULL
-    if (isset($_FILES[$input_name])) {
-// Получаем нужные элементы массива "image"
+    echo "Hello";
+        foreach ( $_FILES as $file){
+            foreach ($file as $value) {
+                echo $value;
+                echo ", ";
+            }
+            echo '<br>';
+    }
+
+    if (isset($_FILES[$input_name]) and $_FILES[$input_name]['tmp_name']!=null) {
         $fileTmpName = $_FILES[$input_name]['tmp_name'];
         $errorCode = $_FILES[$input_name]['error'];
-// Проверим на ошибки
-        if ($errorCode !== UPLOAD_ERR_OK || !is_uploaded_file($fileTmpName)) {
-            // Массив с названиями ошибок
-            $errorMessages = [
-                UPLOAD_ERR_INI_SIZE => 'Размер файла превысил значение upload_max_filesize в конфигурации PHP.',
-                UPLOAD_ERR_FORM_SIZE => 'Размер загружаемого файла превысил значение MAX_FILE_SIZE в HTML-форме.',
-                UPLOAD_ERR_PARTIAL => 'Загружаемый файл был получен только частично.',
-                UPLOAD_ERR_NO_FILE => 'Файл не был загружен.',
-//            UPLOAD_ERR_NO_TMP_DIR => 'Отсутствует временная папка.',
-//            UPLOAD_ERR_CANT_WRITE => 'Не удалось записать файл на диск.',
-                UPLOAD_ERR_EXTENSION => 'PHP-расширение остановило загрузку файла.',
-            ];
-            // Зададим неизвестную ошибку
-            $unknownMessage = 'При загрузке файла произошла неизвестная ошибка.';
-            // Если в массиве нет кода ошибки, скажем, что ошибка неизвестна
-            $outputMessage = isset($errorMessages[$errorCode]) ? $errorMessages[$errorCode] : $unknownMessage;
-            // Выведем название ошибки
-            die($outputMessage);
-            return " ";
-        } else {
+
+//        if ($errorCode !== UPLOAD_ERR_OK || !is_uploaded_file($fileTmpName)) {
+//            // Массив с названиями ошибок
+//            $errorMessages = [
+//                UPLOAD_ERR_INI_SIZE => 'Размер файла превысил значение upload_max_filesize в конфигурации PHP.',
+//                UPLOAD_ERR_FORM_SIZE => 'Размер загружаемого файла превысил значение MAX_FILE_SIZE в HTML-форме.',
+//                UPLOAD_ERR_PARTIAL => 'Загружаемый файл был получен только частично.',
+//                UPLOAD_ERR_NO_FILE => 'Файл не был загружен.',
+//                UPLOAD_ERR_NO_TMP_DIR => 'Отсутствует временная папка.',
+//                UPLOAD_ERR_CANT_WRITE => 'Не удалось записать файл на диск.',
+//                UPLOAD_ERR_EXTENSION => 'PHP-расширение остановило загрузку файла.',
+//            ];
+//            // Зададим неизвестную ошибку
+//            $unknownMessage = 'При загрузке файла произошла неизвестная ошибка.';
+//            // Если в массиве нет кода ошибки, скажем, что ошибка неизвестна
+//            $outputMessage = isset($errorMessages[$errorCode]) ? $errorMessages[$errorCode] : $unknownMessage;
+//            // Выведем название ошибки
+//            die($outputMessage);
+//            return "";
+//        } else {
             // Создадим ресурс FileInfo
             $fi = finfo_open(FILEINFO_MIME_TYPE);
             // Получим MIME-тип
@@ -130,7 +152,7 @@ function saveThemesImage($input_name, $themes_title)
 
             // Сократим .jpeg до .jpg
             $format = str_replace('jpeg', 'jpg', $extension);
-            $dir = '../resources/images/themes/';
+            $dir = '../../resources/images/themes/';
             if (!file_exists($dir)) {
                 mkdir($dir, 0777);
             }
@@ -145,11 +167,10 @@ function saveThemesImage($input_name, $themes_title)
                 die('При записи изображения на диск произошла ошибка.');
             }
 
-            echo 'Картинка успешно загружена!';
             return $image_path;
         }
-    }
-    return "Image not found";
+//    }
+    return "";
 
 }
 

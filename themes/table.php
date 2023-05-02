@@ -1,36 +1,20 @@
 <?php
-include "mysql.php";
-include "menu.php";
-//$themes = $conn->query("SELECT * FROM themes")->fetch_all(MYSQLI_ASSOC);
-//echo "<table border='1'>";
-//foreach($themes as $theme)
-//{
-//    echo "<tr>";
-//    echo "<td>".$theme['id']."</td>";
-//    echo "<td>".$theme['title']."</td>";
-//    echo "<td>".$theme['image']."</td>";
-//    echo "<td>".$theme['text']."</td>";
-//    echo "<td><a href=\"more.php?id=".$theme['id']."\">Подробнее</a></td>";
-//    echo "<td><a href=\"del.php?id=".$theme['id']."\">Удалить</a></td>";
-//    echo "<td><a href=\"edit.php?id=".$theme['id']."\">Изменить</a></td>";
-//    echo "</tr>";
-//}
-//echo "</table>";
-//
-//
+include "../mysql/mysql.php";
+include "../mysql/menu.php";
 ?>
 
 <!DOCTYPE HTML>
 <html>
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="table_style.php" media="screen">
+    <link rel="stylesheet" href="../style/table_style.php" media="screen">
+    <title>Таблица статей</title>
 </head>
 <body>
 
 <div>
     <br>
-    <div class="header">Статьи по Ветхому Завету</div>
+    <div class="header">Таблица статей по Ветхому Завету</div>
 
     <table class="table">
         <tr>
@@ -39,11 +23,9 @@ include "menu.php";
             <th>URL-картинки</th>
             <th>Текст</th>
             <th>Подробнее</th>
-            <th>Удалить</th>
             <th>Редактировать</th>
+            <th>Удалить</th>
         </tr>
-
-
             <?php
             $res = $conn->query("SELECT * FROM themes");
 
@@ -58,8 +40,8 @@ include "menu.php";
                 <td><span class="image" class="text"><?=$theme['image']?></span></td>
                 <td><span class="text"><?=$theme['text']?></span></td>
                 <td><a href="more.php?id=<?=$theme['id']?>">more</a></td>
-                <td><a href="del.php?id=<?=$theme['id']?>">del</a></td>
                 <td><a href="edit.php?id=<?=$theme['id']?>">edit</a></td>
+                <td><a href="del.php?id=<?=$theme['id']?>" onclick="return confirm('Вы действительно хотите удалить статью?');">del</a></td>
         </tr>
             <?php
             }
