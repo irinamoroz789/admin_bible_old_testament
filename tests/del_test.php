@@ -5,7 +5,7 @@
     $result = $conn->query("SELECT * from tests WHERE id='{$_GET['id']}'");
     $test = $result->fetch_assoc();
     $test['title'] = translitFile($test['title']);
-    $dirname = '../resources/images/tests/'.$_GET['id'].'-'.$test['title'];
+    $dirname = '../../resources/images/tests/'.$_GET['id'].'-'.$test['title'];
 
     if(file_exists($dirname)){
         array_map('unlink', glob("$dirname/*.*"));

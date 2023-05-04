@@ -15,7 +15,7 @@
     </label>
 
     <ul class="menu__box">
-        <li><a class="menu__item" href="index.php">Главная</a></li>
+        <li><a class="menu__item" href="../mysql/index.php">Главная</a></li>
         <li><a class="menu__item" href="../themes/table.php">Статьи</a></li>
         <ul class="submenu"><li><a class="menu__item" href="../themes/form.php">Добавить статью</a></li></ul>
         <li><a class="menu__item" href="../tests/table_tests.php">Тесты</a></li>

@@ -7,7 +7,6 @@ header("Content-type: text/html; charset=utf-8");
 if (isset($_POST)) {
     $save_old_image = array();
     $answer_count_arr = $_POST["answer_count"];
-
     $test_old_title = translitFile($_POST["old_title"]);
     $old_dirname = '../../resources/images/tests/'.$_POST["test_id"].'-'.$test_old_title;
 

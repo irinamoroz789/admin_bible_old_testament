@@ -20,7 +20,7 @@ while($row = $result->fetch_array())
 <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
 <body class="body-form">
 <div>
-    <form class="decor" method="post" action="edit_script.php?id=<?=$_GET?>"  enctype="multipart/form-data">
+    <form class="decor" method="post" action="edit_script.php?id=<?=$_GET['id']?>"  enctype="multipart/form-data">
         <div class="form-inner">
             <h4>Редактировать статью</h4>
             <input type="text" name="title" value="<?=$row['title']?>"><br>

@@ -3,6 +3,10 @@
     include "../mysql/menu.php";
     $result_1 = $conn->query("SELECT * from tests WHERE id='{$_GET['id']}'");
     $result_2 = $conn->query("SELECT * from questions WHERE id_test='{$_GET['id']}'");
+    $res = $conn->query("SELECT count(*) from questions WHERE id_test='{$_GET['id']}'");
+    $row = $res->fetch_row();
+    $number_question = $row[0];
+//    echo $number_question;
     while($test = $result_1->fetch_array())
     {
 
@@ -18,7 +22,7 @@
         <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
         <body class="body-form">
         <div>
-            <form class="decor" action="edit_test_script.php?id=<?=$_GET?>" method="post" enctype="multipart/form-data">
+            <form class="decor" action="edit_test_script.php?id=<?=$_GET['id']?>" method="post" enctype="multipart/form-data">
                 <div class="form-inner">
                     <div class="form">
                         <input type="hidden" name="test_id"  id="test_id" value='<?=$_GET['id']?>'>
@@ -33,13 +37,20 @@
                         $answers = explode( '",', $question['response_options']);
 
                         ?>
+
                         <div id="inputFormQuestion_<?=$i?>" class="inputFormQuestion" data-answer_count="1">
                             <div class="delete-question>">
                                 <button id="removeQuestion" class="button-trash" type="button" onclick="deleteQuestion(this)"><object type="image/svg+xml" data="../style/trash.svg"></object></button>
                             </div>
 
                             <h3>Вопрос</h3>
+                            <?php
+                            if($i == $number_question-1){
+                            ?>
                             <div id="addQuestion" onclick="addQuestion(this)"><span class="noselect" onchange="addAnswer()">Добавить вопрос</span><div id="circle"></div></div><br>
+                            <?php
+                            }
+                            ?>
                             <input type="text" class="question" name="question_<?=$i?>" placeholder="Текст вопроса" value='<?=$question['question']?>'><br>
                             <h3>Варианты ответов</h3>
                                 <?php
@@ -76,16 +87,18 @@
                                     <?php
                                     if(@getimagesize($question['image'])){
                                         ?>
+
                                         <div class="input-file-list-item" id="input_image<?=$i?>">
                                             <div><img src="<?=$question['image']?>" class="image-file"></div>
                                             <span class="input-file-list-name"><?=$question['image']?></span>
                                             <a href="#" onclick="removeImage(this)" class="input-file-list-remove">x</a>
                                         </div>
-                                </div>
-                                        <input type="hidden" name="delete_image_<?=$i?>"  id="delete_image_<?=$i?>" class="delete_image" value="false">
+<!--                                        <input type="hidden" name="save_image_--><?//=$i?><!--"  id="save_image_--><?//=$i?><!--" class="save_image" value="--><?//=$question['image']?><!--">-->
                                         <?php
                                     }
                                     ?>
+                                </div>
+                                <input type="hidden" name="delete_image_<?=$i?>"  id="delete_image_<?=$i?>" class="delete_image" value="false">
 
                             </div><br>
                             <input type="text" name="img_caption_<?=$i?>" class="img_caption" placeholder="Описание картинки" value='<?=$question['img_caption']?>'><br>
