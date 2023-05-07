@@ -23,8 +23,6 @@ function changeImage(elem){
 }
 
 function removeImageTheme(file){
-    let input_delete_image = document.getElementById("delete_image");
-    input_delete_image.value = "true";
     $(file).closest('.input-file-list-item').remove();
 }
 

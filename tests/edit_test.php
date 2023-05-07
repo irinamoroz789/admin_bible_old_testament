@@ -1,9 +1,9 @@
 <?php
     include "../mysql/mysql.php";
     include "../mysql/menu.php";
-    $result_1 = $conn->query("SELECT * from tests WHERE id='{$_GET['id']}'");
-    $result_2 = $conn->query("SELECT * from questions WHERE id_test='{$_GET['id']}'");
-    $res = $conn->query("SELECT count(*) from questions WHERE id_test='{$_GET['id']}'");
+    $result_1 = $conn->query("SELECT * from tests WHERE id='{$_GET['id']}' ");
+    $result_2 = $conn->query("SELECT * from questions WHERE id_test='{$_GET['id']}' ");
+    $res = $conn->query("SELECT count(*) from questions WHERE id_test='{$_GET['id']}' ");
     $row = $res->fetch_row();
     $number_question = $row[0];
 //    echo $number_question;
@@ -16,13 +16,12 @@
         <head>
             <meta charset="utf-8">
             <link rel="stylesheet" href="../style/style.php" media="screen">
-            <!--    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">-->
             <title>Редактирование теста <?=$test['title']?></title>
         </head>
         <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
         <body class="body-form">
         <div>
-            <form class="decor" action="edit_test_script.php?id=<?=$_GET['id']?>" method="post" enctype="multipart/form-data">
+            <form class="decor" action="edit_script.php?id=<?=$_GET['id']?>" method="post" enctype="multipart/form-data">
                 <div class="form-inner">
                     <div class="form">
                         <input type="hidden" name="test_id"  id="test_id" value='<?=$_GET['id']?>'>
@@ -92,13 +91,14 @@
                                             <div><img src="<?=$question['image']?>" class="image-file"></div>
                                             <span class="input-file-list-name"><?=$question['image']?></span>
                                             <a href="#" onclick="removeImage(this)" class="input-file-list-remove">x</a>
+                                            <input type="hidden" name="save_image_<?=$i?>"  id="save_image_<?=$i?>" class="save_image" value="<?=$question['image']?>">
                                         </div>
-<!--                                        <input type="hidden" name="save_image_--><?//=$i?><!--"  id="save_image_--><?//=$i?><!--" class="save_image" value="--><?//=$question['image']?><!--">-->
+
                                         <?php
                                     }
                                     ?>
                                 </div>
-                                <input type="hidden" name="delete_image_<?=$i?>"  id="delete_image_<?=$i?>" class="delete_image" value="false">
+<!--                                <input type="hidden" name="delete_image_--><?//=$i?><!--"  id="delete_image_--><?//=$i?><!--" class="delete_image" value="false">-->
 
                             </div><br>
                             <input type="text" name="img_caption_<?=$i?>" class="img_caption" placeholder="Описание картинки" value='<?=$question['img_caption']?>'><br>

@@ -1,20 +1,9 @@
 const dt = new DataTransfer();
 let input_question_count = document.getElementById("input_question_count");
 let question_count = +input_question_count.value-1;
-// console.log(question_count);
-let input_answer_count_arr = [1];
 
 function changeImage(elem){
     let $files_list = $(elem).closest('.input-file').next();
-
-    let $question_id = elem.closest(".inputFormQuestion").id.split("_")[1];
-    let input_delete_image = document.getElementById("delete_image_" + $question_id);
-
-    if(input_delete_image){
-        let input_delete_image = document.getElementById("delete_image_" + $question_id);
-        input_delete_image.value = "true";
-    }
-
     $files_list.empty();
 
     for(let i = 0; i < elem.files.length; i++){
@@ -35,10 +24,6 @@ function changeImage(elem){
     // elem.files = dt.files;
 }
 function removeImage(file){
-
-    let question_id = file.closest(".inputFormQuestion").id.split("_")[1];
-    let input_delete_image = document.getElementById("delete_image_" + question_id);
-    input_delete_image.value = "true";
     $(file).closest('.input-file-list-item').remove();
 }
 
@@ -69,23 +54,21 @@ function addAnswer(elem) {
     </div>
     </div>`;
 
-    // $('#newAnswer').append(html);
     elem.previousElementSibling.appendChild(newAnswer);
     input_answer_count.value = new_answer_count;
 }
 
 function checkIndexAnswer(elem){
-    console.log(elem);
     let question_id = elem.id.split("_")[1];
     let input_answer_count = document.getElementById("input_answer_count_" + question_id);
-    let new_answer_count = +input_answer_count.value - 1;
     let answer_inputs = document.querySelectorAll(`#${elem.id} .inputFormAnswer input`);
     let answer_form = document.querySelectorAll(`#${elem.id} .inputFormAnswer`);
-    for(let i = 0; i < answer_inputs.length; i++){
+    let new_answer_count = answer_form.length;
 
+    for(let i = 0; i < answer_inputs.length; i++){
         let old_name =  answer_inputs[i].getAttribute("name").split("_");
-        answer_inputs[i].setAttribute("name",  `${old_name[0]}_${question_count}_${i+1}`);
-        answer_form[i].id = `inputFormAnswer_${old_name[1]}_${i+1}`;
+        answer_inputs[i].setAttribute("name",  `${old_name[0]}_${question_id}_${i+1}`);
+        answer_form[i].id = `inputFormAnswer_${question_id}_${i+1}`;
 
     }
 
@@ -94,7 +77,7 @@ function checkIndexAnswer(elem){
 
 function deleteAnswer(elem){
     let parent = elem.closest(".inputFormQuestion");
-    // console.log(parent);
+    console.log(parent);
     $(elem).closest('.inputFormAnswer').remove();
     checkIndexAnswer(parent);
 }
@@ -110,7 +93,6 @@ function addQuestion(elem){
              </button>
          </div>
          <h3>Вопрос</h3>
-          <!-- <input type="hidden" name="answer_count_${question_count}"  id="input_answer_count_${question_count}" class="answer_count">-->
            <input type="hidden" name="answer_count[]"  id="input_answer_count_${question_count}" class="answer_count" value="1">
          <div id="addQuestion" onclick="addQuestion(this)"><span class="noselect">Добавить вопрос</span>
              <div id="circle"></div>
@@ -145,15 +127,15 @@ function addQuestion(elem){
 }
 
 function deleteQuestion(elem){
-    let parent = elem.closest(".inputFormQuestion");
-    // console.log("input form question: ", $(elem).closest('.inputFormQuestion'));
+    let question_form = document.querySelectorAll(`.inputFormQuestion`);
     $(elem).closest('.inputFormQuestion').remove();
-    // document.getElementsByClassName('form')[0].removeChild(elem.closest('.inputFormQuestion'));
     question_count --;
     input_question_count.value = question_count+1;
     checkIndex();
-    checkIndexAnswer(parent);
 
+    for(let i = 0; i < question_form.length; i++){
+        checkIndexAnswer(question_form[i]);
+    }
 
     if(!document.getElementById('addQuestion')){
         let new_add_question_btn = document.createElement("div");
@@ -172,9 +154,9 @@ function checkIndex(){
     let img_caption_inputs = document.getElementsByClassName("img_caption");
     let comment_inputs = document.getElementsByClassName("comment");
     let answer_count_inputs = document.getElementsByClassName("answer_count");
-    let delete_image_inputs = document.getElementsByClassName("delete_image");
-
     let question_form = document.getElementsByClassName("inputFormQuestion");
+    let save_img_inputs =  document.getElementsByClassName("save_image");
+
     for(let i = 0; i < question_inputs.length; i++){
         question_form[i].id = "inputFormQuestion_"+i;
         question_inputs[i].setAttribute("name", "question_"+i);
@@ -182,20 +164,16 @@ function checkIndex(){
         image_inputs[i].setAttribute("name", "image_"+i);
         img_caption_inputs[i].setAttribute("name", "img_caption_"+i);
         comment_inputs[i].setAttribute("name", "comment_"+i);
-        delete_image_inputs[i].setAttribute("name", "delete_image_"+i);
         answer_count_inputs[i].id = "input_answer_count_"+i;
-        delete_image_inputs[i].id = "delete_image_"+i;
 
+    }
+    if(save_img_inputs)
+    {
+        for (let i = 0; i < save_img_inputs.length; i++){
+            let id = save_img_inputs[i].closest(".inputFormQuestion").id.split("_")[1];
+            save_img_inputs[i].id = "save_image_" + id;
+            save_img_inputs[i].setAttribute("name", "save_image_" + id);
+        }
     }
 }
 
-function pop_up_modal() {
-    $("#modal_popup").dialog({
-        height: 140,
-        modal: true,
-        title: "The title of your modal popup",
-        open: function(){
-            $( "#modal_popup" ).append("The text that you want in the modal.");
-        }
-    });
-}

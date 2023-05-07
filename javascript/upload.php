@@ -1,27 +1,13 @@
 <?php
 function saveTestImage($input_name, $test_id, $test_title)
 {
-//    foreach ( $_FILES as $file){
-//        foreach ($file as $value) {
-//            echo $value;
-//            echo ", ";
-//        }
-//        echo '<br>';
-//    }
-
-// Если в $_FILES существует "image" и она не NULL
+    // Если в $_FILES существует "image" и она не NULL
     if (isset($_FILES[$input_name]) and $_FILES[$input_name]['tmp_name']!=null) {
-        echo "Image";
-        foreach ($_FILES[$input_name] as $file) {
-            echo $file;
-            echo ", ";
-        }
-       echo "end";
-// Получаем нужные элементы массива "image"
+
+        // Получаем нужные элементы массива "image"
         $fileTmpName = $_FILES[$input_name]['tmp_name'];
-        echo $fileTmpName;
         $errorCode = $_FILES[$input_name]['error'];
-// Проверим на ошибки
+        // Проверим на ошибки
 //        if ($errorCode !== UPLOAD_ERR_OK || !is_uploaded_file($fileTmpName)) {
 //            // Массив с названиями ошибок
 //            $errorMessages = [
@@ -76,7 +62,6 @@ function saveTestImage($input_name, $test_id, $test_title)
                 mkdir($dir, 0777);
             }
 
-//            $image_path = '../resources/images/tests/' .$test_id. "-". $test_title. "/". $name . $format;
             $image_path = $dir . $name . $format;
 
             // Переместим картинку с новым именем и расширением в папку /upload
@@ -92,15 +77,6 @@ function saveTestImage($input_name, $test_id, $test_title)
 }
 function saveThemesImage($input_name, $themes_title)
 {
-    echo "Hello";
-        foreach ( $_FILES as $file){
-            foreach ($file as $value) {
-                echo $value;
-                echo ", ";
-            }
-            echo '<br>';
-    }
-
     if (isset($_FILES[$input_name]) and $_FILES[$input_name]['tmp_name']!=null) {
         $fileTmpName = $_FILES[$input_name]['tmp_name'];
         $errorCode = $_FILES[$input_name]['error'];
@@ -157,7 +133,6 @@ function saveThemesImage($input_name, $themes_title)
                 mkdir($dir, 0777);
             }
 
-//            $image_path = '../resources/images/tests/' .$test_id. "-". $test_title. "/". $name . $format;
             $image_path = $dir . $name . $format;
             $image_path = translitFile($image_path);
 

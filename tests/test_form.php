@@ -7,7 +7,6 @@ include "../mysql/menu.php";
     <meta charset="utf-8">
     <link rel="stylesheet" href="../style/style.php" media="screen">
     <title>Добавить тест</title>
-<!--    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">-->
 </head>
 <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
 <body class="body-form">
@@ -23,7 +22,6 @@ include "../mysql/menu.php";
                         <button id="removeQuestion" class="button-trash" type="button" onclick="deleteQuestion(this)"><object type="image/svg+xml" data="../style/trash.svg"></object></button>
                     </div>
                     <h3>Вопрос</h3>
-<!--                    <input type="hidden" name="answer_count_0"  id="input_answer_count_0" class="answer_count">-->
                     <input type="hidden" name="answer_count[]"  id="input_answer_count_0" class="answer_count" value="1">
                 <div id="addQuestion" onclick="addQuestion(this)"><span class="noselect" onchange="addAnswer()">Добавить вопрос</span><div id="circle"></div></div><br>
                 <input type="text" class="question" name="question_0" placeholder="Текст вопроса"><br>
@@ -56,6 +54,5 @@ include "../mysql/menu.php";
     </form>
 </div>
 <script src="../javascript/test.js"></script>
-<script src="../javascript/image.js"></script>
 </body>
 </html>

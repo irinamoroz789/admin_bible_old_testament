@@ -17,7 +17,6 @@
                       $response_options .= ",";
             }
             $response_options .= "]";
-//              echo $response_options;
             $image_pass = saveTestImage("image_$i", $test['id'], $test['title']);
 //            $image_pass = "http://pstgu.yss.su/1/MorozIrina/mobile". trim($image_pass, ".");
 
