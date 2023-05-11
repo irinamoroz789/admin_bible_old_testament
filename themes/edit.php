@@ -5,9 +5,6 @@ include "../mysql/menu.php";
 $result = $conn->query("SELECT * from themes WHERE id='{$_GET['id']}' ");
 while($row = $result->fetch_array())
         {
-    //echo "<h1>".$row['title']."</h1>";
-    //echo "<img src='".$row['image']."'>";
-    //echo "<p>".$row['text']."</p>";
 
 ?>
 

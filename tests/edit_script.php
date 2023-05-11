@@ -7,17 +7,14 @@ header("Content-type: text/html; charset=utf-8");
 if (isset($_POST)) {
     $save_old_image = array();
 
-    $test_old_title = translitFile($_POST["old_title"]);
-    $old_dirname = '../../resources/images/tests/'.$_POST["test_id"].'-'.$test_old_title;
-
-    $test_title = translitFile($_POST["title"]);
-    $dirname = '../../resources/images/tests/'.$_POST["test_id"].'-'.$test_title;
+    $dirname = '../../resources/images/tests/'.$_POST["test_id"];
     $temp_dirname =  '../../resources/images/tests/'.$_POST["test_id"].'-temp';
     mkdir($temp_dirname, 0700);
 
     $conn->query("UPDATE tests SET title='{$_POST["title"]}' WHERE id='{$_POST["test_id"]}'");
 
     $result = $conn->query("SELECT * from questions WHERE id_test='{$_POST['test_id']}'");
+
     if (isset($_POST["question_count"]) && !empty($_POST["question_count"])) {
         $answer_count_arr = $_POST["answer_count"];
     for ($i = 0; $i < $_POST["question_count"]; $i++) {
@@ -33,23 +30,22 @@ if (isset($_POST)) {
 
         for ($i = 0; $i < $_POST["question_count"]; $i++){
         if($save_old_image[$i] != "") {
-            $newFilePath = str_replace($old_dirname, $temp_dirname, $save_old_image[$i]);
+            $newFilePath = str_replace($dirname, $temp_dirname, $save_old_image[$i]);
             rename($save_old_image[$i], $newFilePath);
         }
     }
-    if(is_dir($old_dirname)) {
-        array_map('unlink', glob("$old_dirname/*.*"));
-        rmdir($old_dirname);
+    if(is_dir($dirname)) {
+        array_map('unlink', glob("$dirname/*.*"));
+        rmdir($dirname);
     }
 
-    if($_POST["title"] != $_POST["old_title"]) {
-        for ($i = 0; $i < $_POST["question_count"]; $i++) {
-            echo "New title: " . $save_old_image[$i];
-            if($save_old_image[$i] != "") {
-                $save_old_image[$i] = str_replace($old_dirname, $dirname, $save_old_image[$i]);
-            }
-        }
-    }
+//    if($_POST["title"] != $_POST["old_title"]) {
+//        for ($i = 0; $i < $_POST["question_count"]; $i++) {
+//            if($save_old_image[$i] != "") {
+//                $save_old_image[$i] = str_replace($old_dirname, $dirname, $save_old_image[$i]);
+//            }
+//        }
+//    }
     rename($temp_dirname, $dirname);
 
     $conn->query("DELETE from questions WHERE id_test='{$_POST['test_id']}'");
@@ -62,7 +58,7 @@ if (isset($_POST)) {
                 $response_options .= ",";
         }
         $response_options .= "]";
-        $image_pass = saveTestImage("image_$i", $_POST["test_id"], $_POST['title']);
+        $image_pass = saveTestImage("image_$i", $_POST["test_id"]);
 //            $image_pass = "http://pstgu.yss.su/1/MorozIrina/mobile". trim($image_pass, ".");
         if($image_pass == "" && $save_old_image[$i]!="")
             $image_pass = $save_old_image[$i];

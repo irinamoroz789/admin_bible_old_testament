@@ -23,12 +23,12 @@
                             <h1>404</h1>
                         </div>
                         <h2>Что-то пошло не так...</h2>
-                        <p> <a href="index.php">Вернуться на главную</a></p>
+                        <p> <a href="../mysql/index.php">Вернуться на главную</a></p>
                     </div>
                 </div>
     
                 </body>
                 </html>
 HTML;
-    }
+	}
 

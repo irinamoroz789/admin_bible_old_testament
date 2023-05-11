@@ -2,10 +2,11 @@
 
     include "mysql.php";
     include "menu.php";
-    //phpinfo();
 
-    //$themes = $conn->query("SELECT * FROM themes")->fetch_all(MYSQLI_ASSOC);
-
+    $days = 90;
+    $seconds = time() - $days * 24 * 60 * 60;
+    $date = date('Y-m-d H:i:s', $seconds);
+    $conn->query("DELETE FROM result_tests WHERE updated_at < '" . $date . " ' ");
     // вывод главной страницы
     ?>
     <!DOCTYPE html>

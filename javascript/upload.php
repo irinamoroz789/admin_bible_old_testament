@@ -1,5 +1,5 @@
 <?php
-function saveTestImage($input_name, $test_id, $test_title)
+function saveTestImage($input_name, $test_id)
 {
     // Если в $_FILES существует "image" и она не NULL
     if (isset($_FILES[$input_name]) and $_FILES[$input_name]['tmp_name']!=null) {
@@ -53,10 +53,9 @@ function saveTestImage($input_name, $test_id, $test_title)
             // Сгенерируем расширение файла на основе типа картинки
             $extension = image_type_to_extension($image[2]);
 
-            $test_title = translitFile($test_title);
             // Сократим .jpeg до .jpg
             $format = str_replace('jpeg', 'jpg', $extension);
-            $dir = '../../resources/images/tests/' .$test_id. "-". $test_title. "/";
+            $dir = '../../resources/images/tests/' .$test_id. "/";
 
             if (!file_exists($dir)) {
                 mkdir($dir, 0777);
@@ -75,7 +74,7 @@ function saveTestImage($input_name, $test_id, $test_title)
     return "";
 
 }
-function saveThemesImage($input_name, $themes_title)
+function saveThemesImage($input_name, $id_theme)
 {
     if (isset($_FILES[$input_name]) and $_FILES[$input_name]['tmp_name']!=null) {
         $fileTmpName = $_FILES[$input_name]['tmp_name'];
@@ -120,8 +119,6 @@ function saveThemesImage($input_name, $themes_title)
 //            if ($image[1] > $limitHeight) die('Высота изображения не должна превышать 768 точек.');
 //            if ($image[0] > $limitWidth) die('Ширина изображения не должна превышать 1280 точек.');
 
-            // Сгенерируем новое имя файла через функцию getRandomFileName()
-            $name = $themes_title;
 
             // Сгенерируем расширение файла на основе типа картинки
             $extension = image_type_to_extension($image[2]);
@@ -132,16 +129,12 @@ function saveThemesImage($input_name, $themes_title)
             if (!file_exists($dir)) {
                 mkdir($dir, 0777);
             }
-
-            $image_path = $dir . $name . $format;
-            $image_path = translitFile($image_path);
-
+            $image_path = $dir . $id_theme . $format;
 
             // Переместим картинку с новым именем и расширением в папку /upload
             if (!move_uploaded_file($fileTmpName,   $image_path)) {
                 die('При записи изображения на диск произошла ошибка.');
             }
-
             return $image_path;
         }
 //    }
@@ -149,7 +142,6 @@ function saveThemesImage($input_name, $themes_title)
 
 }
 
-// File functions.php
 function getRandomFileName($path)
 {
     $path = $path ? $path . '/' : '';
@@ -159,45 +151,4 @@ function getRandomFileName($path)
     } while (file_exists($file));
 
     return $name;
-}
-function translitFile($filename)
-{
-    $converter = array(
-        'а' => 'a',    'б' => 'b',    'в' => 'v',    'г' => 'g',    'д' => 'd',
-        'е' => 'e',    'ё' => 'e',    'ж' => 'zh',   'з' => 'z',    'и' => 'i',
-        'й' => 'y',    'к' => 'k',    'л' => 'l',    'м' => 'm',    'н' => 'n',
-        'о' => 'o',    'п' => 'p',    'р' => 'r',    'с' => 's',    'т' => 't',
-        'у' => 'u',    'ф' => 'f',    'х' => 'h',    'ц' => 'c',    'ч' => 'ch',
-        'ш' => 'sh',   'щ' => 'sch',  'ь' => '',     'ы' => 'y',    'ъ' => '',
-        'э' => 'e',    'ю' => 'yu',   'я' => 'ya',
-
-        'А' => 'A',    'Б' => 'B',    'В' => 'V',    'Г' => 'G',    'Д' => 'D',
-        'Е' => 'E',    'Ё' => 'E',    'Ж' => 'Zh',   'З' => 'Z',    'И' => 'I',
-        'Й' => 'Y',    'К' => 'K',    'Л' => 'L',    'М' => 'M',    'Н' => 'N',
-        'О' => 'O',    'П' => 'P',    'Р' => 'R',    'С' => 'S',    'Т' => 'T',
-        'У' => 'U',    'Ф' => 'F',    'Х' => 'H',    'Ц' => 'C',    'Ч' => 'Ch',
-        'Ш' => 'Sh',   'Щ' => 'Sch',  'Ь' => '',     'Ы' => 'Y',    'Ъ' => '',
-        'Э' => 'E',    'Ю' => 'Yu',   'Я' => 'Ya',   '?' => '',
-    );
-
-    $new = '';
-
-    $file = pathinfo(trim($filename));
-    if (!empty($file['dirname']) && @$file['dirname'] != '.') {
-        $new .= rtrim($file['dirname'], '/') . '/';
-    }
-
-    if (!empty($file['filename'])) {
-        $file['filename'] = str_replace(array(' ', ','), '-', $file['filename']);
-        $file['filename'] = strtr($file['filename'], $converter);
-        $file['filename'] = mb_ereg_replace('[-]+', '-', $file['filename']);
-        $file['filename'] = trim($file['filename'], '-');
-        $new .= $file['filename'];
-    }
-
-    if (!empty($file['extension'])) {
-        $new .= '.' . $file['extension'];
-    }
-
-    return $new;
 }
