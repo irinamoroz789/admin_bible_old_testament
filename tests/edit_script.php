@@ -39,13 +39,6 @@ if (isset($_POST)) {
         rmdir($dirname);
     }
 
-//    if($_POST["title"] != $_POST["old_title"]) {
-//        for ($i = 0; $i < $_POST["question_count"]; $i++) {
-//            if($save_old_image[$i] != "") {
-//                $save_old_image[$i] = str_replace($old_dirname, $dirname, $save_old_image[$i]);
-//            }
-//        }
-//    }
     rename($temp_dirname, $dirname);
 
     $conn->query("DELETE from questions WHERE id_test='{$_POST['test_id']}'");
@@ -58,12 +51,13 @@ if (isset($_POST)) {
                 $response_options .= ",";
         }
         $response_options .= "]";
-        $image_pass = saveTestImage("image_$i", $_POST["test_id"]);
-//            $image_pass = "http://pstgu.yss.su/1/MorozIrina/mobile". trim($image_pass, ".");
-        if($image_pass == "" && $save_old_image[$i]!="")
-            $image_pass = $save_old_image[$i];
+        $image_path = saveTestImage("image_$i", $_POST["test_id"]);
+        $image_path = "http://vkrmorozirina.troitsa-ivashevo.ru/mobile".substr($image_path, 5);
 
-        if($conn->query("INSERT INTO questions (question, response_options, answer, image, img_caption, comment, id_test) VALUES ('{$_POST["question_$i"]}', '$response_options', '{$_POST["response_answer_$i"]}', '{$image_pass}', '{$_POST["img_caption_$i"]}', '{$_POST["comment_$i"]}', '{$_POST['test_id']}')")){
+        if($image_path == "" && $save_old_image[$i]!="")
+            $image_path = $save_old_image[$i];
+
+        if($conn->query("INSERT INTO questions (question, response_options, answer, image, img_caption, comment, id_test) VALUES ('{$_POST["question_$i"]}', '$response_options', '{$_POST["response_answer_$i"]}', '{$image_path}', '{$_POST["img_caption_$i"]}', '{$_POST["comment_$i"]}', '{$_POST['test_id']}')")){
             header('Location: more_test.php?id='.$_POST['test_id']);
         }
         else{

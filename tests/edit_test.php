@@ -6,7 +6,6 @@
     $res = $conn->query("SELECT count(*) from questions WHERE id_test='{$_GET['id']}' ");
     $row = $res->fetch_row();
     $number_question = $row[0];
-//    echo $number_question;
     while($test = $result_1->fetch_array())
     {
 

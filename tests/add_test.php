@@ -17,10 +17,10 @@
                       $response_options .= ",";
             }
             $response_options .= "]";
-            $image_pass = saveTestImage("image_$i", $test['id'], $test['title']);
-//            $image_pass = "http://pstgu.yss.su/1/MorozIrina/mobile". trim($image_pass, ".");
+            $image_path = saveTestImage("image_$i", $test['id'], $test['title']);
+            $image_path = "http://vkrmorozirina.troitsa-ivashevo.ru/mobile".substr($image_path, 5);
 
-            if($conn->query("INSERT INTO questions (question, response_options, answer, image, img_caption, comment, id_test) VALUES ('{$_POST["question_$i"]}', '$response_options', '{$_POST["response_answer_$i"]}', '{$image_pass}', '{$_POST["img_caption_$i"]}', '{$_POST["comment_$i"]}', '{$test['id']}')")){
+            if($conn->query("INSERT INTO questions (question, response_options, answer, image, img_caption, comment, id_test) VALUES ('{$_POST["question_$i"]}', '$response_options', '{$_POST["response_answer_$i"]}', '{$image_path}', '{$_POST["img_caption_$i"]}', '{$_POST["comment_$i"]}', '{$test['id']}')")){
                 header('Location: more_test.php?id='.$test['id']);
             }
             else{

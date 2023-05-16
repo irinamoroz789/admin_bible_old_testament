@@ -1,6 +1,6 @@
 <?php
-	$conn = new mysqli('localhost', 'root', '', 'bible_old_testament');
-//    $conn = new mysqli('localhost', 'irinamoroz', 'VRAW0wpC', 'irinamoroz');
+//	$conn = new mysqli('localhost', 'root', '', 'bible_old_testament');
+    $conn = new mysqli('ivashevo.mysql', 'ivashevo_vkrmor', 'ASDJADbcds32sdfc', 'ivashevo_vkrmorozirina');
 	$conn->query("SET NAMES 'utf8'");
 	if($conn->connect_error){
 		echo 'Error Number: '.$conn->connect_errno.'<br>';
@@ -23,7 +23,7 @@
                             <h1>404</h1>
                         </div>
                         <h2>Что-то пошло не так...</h2>
-                        <p> <a href="../mysql/index.php">Вернуться на главную</a></p>
+                        <p> <a href="index.php">Вернуться на главную</a></p>
                     </div>
                 </div>
     

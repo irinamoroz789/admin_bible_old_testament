@@ -13,7 +13,7 @@
             $theme = $result->fetch_assoc();
 
             $image_path = saveThemesImage("image",  $theme['id']);
-                // $image_pass = "http://pstgu.yss.su/1/MorozIrina/mobile". trim($image_pass, ".");
+            $image_pass = "http://vkrmorozirina.troitsa-ivashevo.ru/mobile".substr($image_path, 5);
 
             $conn->query("UPDATE themes SET image='{$image_path}' WHERE id='{$theme['id']}' ");
             header('Location: more.php?id='.$theme['id']);
