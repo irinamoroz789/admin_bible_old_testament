@@ -18,7 +18,9 @@
             }
             $response_options .= "]";
             $image_path = saveTestImage("image_$i", $test['id'], $test['title']);
-            $image_path = "http://vkrmorozirina.troitsa-ivashevo.ru/mobile".substr($image_path, 5);
+            if($image_path != "") {
+                $image_path = "http://vkrmorozirina.troitsa-ivashevo.ru/mobile" . substr($image_path, 5);
+            }
 
             if($conn->query("INSERT INTO questions (question, response_options, answer, image, img_caption, comment, id_test) VALUES ('{$_POST["question_$i"]}', '$response_options', '{$_POST["response_answer_$i"]}', '{$image_path}', '{$_POST["img_caption_$i"]}', '{$_POST["comment_$i"]}', '{$test['id']}')")){
                 header('Location: more_test.php?id='.$test['id']);

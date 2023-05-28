@@ -30,6 +30,7 @@ if (isset($_POST)) {
 
         for ($i = 0; $i < $_POST["question_count"]; $i++){
         if($save_old_image[$i] != "") {
+            $save_old_image[$i] = str_replace('http://vkrmorozirina.troitsa-ivashevo.ru/mobile', '../..', $save_old_image[$i]);
             $newFilePath = str_replace($dirname, $temp_dirname, $save_old_image[$i]);
             rename($save_old_image[$i], $newFilePath);
         }
@@ -52,7 +53,9 @@ if (isset($_POST)) {
         }
         $response_options .= "]";
         $image_path = saveTestImage("image_$i", $_POST["test_id"]);
-        $image_path = "http://vkrmorozirina.troitsa-ivashevo.ru/mobile".substr($image_path, 5);
+        if($image_path != "") {
+            $image_path = "http://vkrmorozirina.troitsa-ivashevo.ru/mobile" . substr($image_path, 5);
+        }
 
         if($image_path == "" && $save_old_image[$i]!="")
             $image_path = $save_old_image[$i];

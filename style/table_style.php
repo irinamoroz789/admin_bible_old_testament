@@ -69,3 +69,8 @@ span.image {
 .table tbody tr td:last-child {
     border-radius: 0 8px 8px 0;
 }
+td span{
+    max-height: 200px;
+    display: inline-block;
+    overflow-y: scroll;
+}

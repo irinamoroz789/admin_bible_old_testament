@@ -20,6 +20,7 @@
         <ul class="submenu"><li><a class="menu__item" href="../themes/form.php">Добавить статью</a></li></ul>
         <li><a class="menu__item" href="../tests/table_tests.php">Тесты</a></li>
         <ul class="submenu"><li><a class="menu__item" href="../tests/test_form.php">Добавить тест</a></li></ul>
+        <li><a class="menu__item" href="../versions/table_versions.php">Версии приложения</a></li>
     </ul>
 </div>
 </body>

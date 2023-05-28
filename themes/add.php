@@ -1,10 +1,8 @@
 <?php
     include "../mysql/mysql.php";
     include "../javascript/upload.php";
-    include "../mysql/menu.php";
     header("Content-type: text/html; charset=utf-8");
 	if(isset($_POST)){
-
 
         $text = rtrim($_POST["text"], ",");
 
@@ -13,7 +11,9 @@
             $theme = $result->fetch_assoc();
 
             $image_path = saveThemesImage("image",  $theme['id']);
-            $image_pass = "http://vkrmorozirina.troitsa-ivashevo.ru/mobile".substr($image_path, 5);
+            if($image_path != "") {
+                $image_path = "http://vkrmorozirina.troitsa-ivashevo.ru/mobile" . substr($image_path, 5);
+            }
 
             $conn->query("UPDATE themes SET image='{$image_path}' WHERE id='{$theme['id']}' ");
             header('Location: more.php?id='.$theme['id']);

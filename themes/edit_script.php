@@ -14,7 +14,9 @@
     }
 
     $image_path = saveThemesImage("image",  $_GET['id']);
-    $image_path = "http://vkrmorozirina.troitsa-ivashevo.ru/mobile".substr($image_path, 5);
+    if($image_path != "") {
+        $image_path = "http://vkrmorozirina.troitsa-ivashevo.ru/mobile" . substr($image_path, 5);
+    }
 
     if($image_path == "" && $save_old_image !="")
         $image_path = $save_old_image;
