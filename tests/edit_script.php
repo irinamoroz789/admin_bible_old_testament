@@ -58,7 +58,7 @@ if (isset($_POST)) {
         }
 
         if($image_path == "" && $save_old_image[$i]!="")
-            $image_path = $save_old_image[$i];
+            $image_path = "http://vkrmorozirina.troitsa-ivashevo.ru/mobile" . substr($save_old_image[$i], 5);;
 
         if($conn->query("INSERT INTO questions (question, response_options, answer, image, img_caption, comment, id_test) VALUES ('{$_POST["question_$i"]}', '$response_options', '{$_POST["response_answer_$i"]}', '{$image_path}', '{$_POST["img_caption_$i"]}', '{$_POST["comment_$i"]}', '{$_POST['test_id']}')")){
             header('Location: more_test.php?id='.$_POST['test_id']);
