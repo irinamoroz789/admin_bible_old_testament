@@ -6,7 +6,7 @@
 
     $theme = $result->fetch_assoc();
     if(isset($_POST["delete_image"]) && $_POST["delete_image"] == "true"){
-        unlink($theme['image']);
+        unlink(str_replace("http://vkrmorozirina.troitsa-ivashevo.ru/mobile", "../..", $theme['image']));
         $save_old_image =  "";
     }
     else{
