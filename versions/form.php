@@ -13,7 +13,7 @@ include "../mysql/menu.php";
 <div>
     <form class="decor" action="add_version.php" method="post" enctype="multipart/form-data">
         <div class="form-inner">
-            <h4>Обновить версию приложения</h4>
+            <h4>Добавить новую версию приложения</h4>
             <input type="text" name="version" placeholder="Версия"><br>
             <input type="submit" value="Отправить">
         </div>

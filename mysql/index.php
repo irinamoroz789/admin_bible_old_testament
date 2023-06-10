@@ -17,7 +17,6 @@
         <link rel="stylesheet" href="../style/style.php" media="screen">
     </head>
     <body>
-    <div class="heading">Админка для приложения по Ветхому Завету</div>
     <div class="div_block">
         <div class="item_block">
             <h2>Статьи по Ветхому Завету</h2>
