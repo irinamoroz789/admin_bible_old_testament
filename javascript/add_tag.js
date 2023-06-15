@@ -11,25 +11,26 @@ function addTag(open, close) {
     }
     return false;
 }
+
 // Абзац
-$('#button-a').click(function(){
+$('#button-a').click(function () {
     return addTag('"', '",');
 });
 // Заголовок
-$('#button-h1').click(function(){
+$('#button-h1').click(function () {
     return addTag('<h1>', '</h1>');
 });
 // Жирный
-$('#button-b').click(function(){
+$('#button-b').click(function () {
     return addTag('<b>', '</b>');
 });
 
 // Курсив
-$('#button-i').click(function(){
+$('#button-i').click(function () {
     return addTag('<i>', '</i>');
 });
 
 // При клике на кнопки не снимаем фокус с textarea.
-$('a').on('mousedown', function() {
+$('a').on('mousedown', function () {
     return false;
 });

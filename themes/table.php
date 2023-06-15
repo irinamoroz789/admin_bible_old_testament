@@ -1,6 +1,7 @@
 <?php
 include "../mysql/mysql.php";
 include "../mysql/menu.php";
+include "../check_auth.php";
 ?>
 
 <!DOCTYPE HTML>
@@ -26,26 +27,26 @@ include "../mysql/menu.php";
             <th>Редактировать</th>
             <th>Удалить</th>
         </tr>
-            <?php
-            $res = $conn->query("SELECT * FROM themes");
+        <?php
+        $res = $conn->query("SELECT * FROM themes");
 
-            //foreach($themes as $theme)
-            while($theme = $res->fetch_assoc())
-            {
+        //foreach($themes as $theme)
+        while ($theme = $res->fetch_assoc()) {
 
             ?>
-        <tr>
-                <td><?=$theme['id']?></td>
-                <td><?=$theme['title']?></td>
-                <td><span class="image" class="text"><?=$theme['image']?></span></td>
-                <td><span class="text"><?=$theme['text']?></span></td>
-                <td><a href="more.php?id=<?=$theme['id']?>">more</a></td>
-                <td><a href="edit.php?id=<?=$theme['id']?>">edit</a></td>
-                <td><a href="del.php?id=<?=$theme['id']?>" onclick="return confirm('Вы действительно хотите удалить статью?');">del</a></td>
-        </tr>
+            <tr>
+                <td><?= $theme['id'] ?></td>
+                <td><?= $theme['title'] ?></td>
+                <td><span class="image" class="text"><?= $theme['image'] ?></span></td>
+                <td><span class="text"><?= $theme['text'] ?></span></td>
+                <td><a href="more.php?id=<?= $theme['id'] ?>">more</a></td>
+                <td><a href="edit.php?id=<?= $theme['id'] ?>">edit</a></td>
+                <td><a href="del.php?id=<?= $theme['id'] ?>"
+                       onclick="return confirm('Вы действительно хотите удалить статью?');">del</a></td>
+            </tr>
             <?php
-            }
-            ?>
+        }
+        ?>
 
     </table>
 

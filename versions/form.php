@@ -1,5 +1,6 @@
 <?php
 include "../mysql/menu.php";
+include "../check_auth.php";
 ?>
 <!DOCTYPE HTML>
 <html>

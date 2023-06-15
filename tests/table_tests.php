@@ -1,6 +1,7 @@
 <?php
 include "../mysql/mysql.php";
 include "../mysql/menu.php";
+include "../check_auth.php";
 ?>
 
 <!DOCTYPE HTML>
@@ -30,28 +31,27 @@ include "../mysql/menu.php";
         $res = $conn->query("SELECT * FROM tests");
 
         //foreach($themes as $theme)
-        while($test = $res->fetch_assoc())
-        {
+        while ($test = $res->fetch_assoc()) {
             $id_test = $test['id'];
             $result = $conn->query("SELECT * from questions WHERE id_test=$id_test ");
 
             ?>
             <tr>
-                <td><?=$test['id']?></td>
-                <td><?=$test['title']?></td>
+                <td><?= $test['id'] ?></td>
+                <td><?= $test['title'] ?></td>
                 <td><span class="text_question">
                 <?php
-                while($question = $result->fetch_assoc())
-                {
-                ?>
-                    <?=$question['question']?><br>
-                <?php
+                while ($question = $result->fetch_assoc()) {
+                    ?>
+                    <?= $question['question'] ?><br>
+                    <?php
                 }
                 ?>
                 </span></td>
-                <td><a href="more_test.php?id=<?=$test['id']?>">more</a></td>
-                <td><a href="edit_test.php?id=<?=$test['id']?>">edit</a></td>
-                <td><a href="del_test.php?id=<?=$test['id']?>" onclick="return confirm('Вы действительно хотите удалить тест?');">del</a></td>
+                <td><a href="more_test.php?id=<?= $test['id'] ?>">more</a></td>
+                <td><a href="edit_test.php?id=<?= $test['id'] ?>">edit</a></td>
+                <td><a href="del_test.php?id=<?= $test['id'] ?>"
+                       onclick="return confirm('Вы действительно хотите удалить тест?');">del</a></td>
             </tr>
             <?php
         }

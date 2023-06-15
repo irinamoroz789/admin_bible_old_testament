@@ -1,6 +1,7 @@
 <?php
 include "../mysql/mysql.php";
 include "../mysql/menu.php";
+include "../check_auth.php";
 ?>
 
 <!DOCTYPE HTML>
@@ -27,19 +28,21 @@ include "../mysql/menu.php";
         $res = $conn->query("SELECT * FROM app_version");
 
         //foreach($themes as $theme)
-        while($version = $res->fetch_assoc())
-        {
+        while ($version = $res->fetch_assoc()) {
 
             ?>
             <tr>
-                <td><?=$version['id']?></td>
-                <td><?=$version['version']?></td>
-                <td><?=$version['created_at']?></td>
+                <td><?= $version['id'] ?></td>
+                <td><?= $version['version'] ?></td>
+                <td><?= $version['created_at'] ?></td>
             </tr>
             <?php
         }
         ?>
     </table>
-    <div class="bottom_block" id="addQuestion" onclick="location.href='../versions/form.php';"><span class="noselect">Добавить версию</span><div id="circle"></div></div><br>
+    <div class="bottom_block" id="addQuestion" onclick="location.href='../versions/form.php';"><span class="noselect">Добавить версию</span>
+        <div id="circle"></div>
+    </div>
+    <br>
 </body>
 </html>
